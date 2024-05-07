@@ -41,7 +41,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+static const char stringEndSymbol = '\0';
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -57,8 +57,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define SPI2_EN_Pin GPIO_PIN_12
+#define SPI2_EN_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-
+#define BUFFER_SIZE 10
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
