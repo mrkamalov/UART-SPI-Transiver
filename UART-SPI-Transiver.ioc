@@ -1,8 +1,8 @@
 #MicroXplorer Configuration settings - do not modify
-FREERTOS.BinarySemaphores01=uartSendSem,Dynamic,NULL;spiSendSem,Dynamic,NULL
+FREERTOS.BinarySemaphores01=uartSendSem,Dynamic,NULL
 FREERTOS.FootprintOK=true
 FREERTOS.IPParameters=Tasks01,FootprintOK,Queues01,BinarySemaphores01,configENABLE_FPU,configUSE_NEWLIB_REENTRANT
-FREERTOS.Queues01=uartSendQueue,10,uint8_t,0,Dynamic,NULL,NULL;spiSendQueue,10,uint8_t,0,Dynamic,NULL,NULL
+FREERTOS.Queues01=uartSendQueue,10,uint16_t,0,Dynamic,NULL,NULL;spiSendQueue,10,uint16_t,0,Dynamic,NULL,NULL
 FREERTOS.Tasks01=uartTransiver,24,128,uartTransiverTask,As weak,&huart4,Dynamic,NULL,NULL;spiTransiver,24,128,spiTransiverTask,As external,&hspi2,Dynamic,NULL,NULL
 FREERTOS.configENABLE_FPU=0
 FREERTOS.configUSE_NEWLIB_REENTRANT=0

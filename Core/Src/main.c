@@ -75,11 +75,6 @@ osSemaphoreId_t uartSendSemHandle;
 const osSemaphoreAttr_t uartSendSem_attributes = {
   .name = "uartSendSem"
 };
-/* Definitions for spiSendSem */
-osSemaphoreId_t spiSendSemHandle;
-const osSemaphoreAttr_t spiSendSem_attributes = {
-  .name = "spiSendSem"
-};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -148,9 +143,6 @@ int main(void)
   /* creation of uartSendSem */
   uartSendSemHandle = osSemaphoreNew(1, 1, &uartSendSem_attributes);
 
-  /* creation of spiSendSem */
-  spiSendSemHandle = osSemaphoreNew(1, 1, &spiSendSem_attributes);
-
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
@@ -161,10 +153,10 @@ int main(void)
 
   /* Create the queue(s) */
   /* creation of uartSendQueue */
-  uartSendQueueHandle = osMessageQueueNew (10, sizeof(uint8_t), &uartSendQueue_attributes);
+  uartSendQueueHandle = osMessageQueueNew (10, sizeof(uint16_t), &uartSendQueue_attributes);
 
   /* creation of spiSendQueue */
-  spiSendQueueHandle = osMessageQueueNew (10, sizeof(uint8_t), &spiSendQueue_attributes);
+  spiSendQueueHandle = osMessageQueueNew (10, sizeof(uint16_t), &spiSendQueue_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */

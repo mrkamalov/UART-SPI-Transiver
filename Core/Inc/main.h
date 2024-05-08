@@ -61,6 +61,7 @@ void Error_Handler(void);
 #define SPI2_EN_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 #define BUFFER_SIZE 10
+#define SECOND_TIMEOUT 1000
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
