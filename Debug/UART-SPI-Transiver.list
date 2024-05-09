@@ -384,10 +384,10 @@ int main(void)
  80004e0:	f000 f93e 	bl	8000760 <MX_GPIO_Init>
   MX_IWDG_Init();
  80004e4:	f000 f8c0 	bl	8000668 <MX_IWDG_Init>
-  MX_UART4_Init();
- 80004e8:	f000 f910 	bl	800070c <MX_UART4_Init>
   MX_SPI2_Init();
- 80004ec:	f000 f8d6 	bl	800069c <MX_SPI2_Init>
+ 80004e8:	f000 f8d8 	bl	800069c <MX_SPI2_Init>
+  MX_UART4_Init();
+ 80004ec:	f000 f90e 	bl	800070c <MX_UART4_Init>
   /* USER CODE BEGIN 2 */
   __HAL_DBGMCU_FREEZE_IWDG();
  80004f0:	4b19      	ldr	r3, [pc, #100]	; (8000558 <main+0x84>)
@@ -972,9 +972,9 @@ __STATIC_FORCEINLINE void __disable_irq(void)
 	...
 
 08000840 <spiTransiverTask>:
+extern osMessageQueueId_t uartSendQueueHandle;
 extern IWDG_HandleTypeDef hiwdg;
 volatile uint8_t spiSendFlag = 0;
-
 
 void spiTransiverTask(void *argument)
 {
@@ -1030,25 +1030,25 @@ void spiTransiverTask(void *argument)
  80008a0:	4603      	mov	r3, r0
  80008a2:	2b00      	cmp	r3, #0
  80008a4:	d118      	bne.n	80008d8 <spiTransiverTask+0x98>
-      transmitBuffer[0] = uartMsg[0];
- 80008a6:	89ba      	ldrh	r2, [r7, #12]
- 80008a8:	4b13      	ldr	r3, [pc, #76]	; (80008f8 <spiTransiverTask+0xb8>)
- 80008aa:	801a      	strh	r2, [r3, #0]
-      if(getUARTLastByte()==stringEndSymbol) spiSendFlag = 0;
- 80008ac:	f000 fa5a 	bl	8000d64 <getUARTLastByte>
- 80008b0:	4603      	mov	r3, r0
- 80008b2:	461a      	mov	r2, r3
- 80008b4:	2300      	movs	r3, #0
- 80008b6:	429a      	cmp	r2, r3
- 80008b8:	d103      	bne.n	80008c2 <spiTransiverTask+0x82>
- 80008ba:	4b13      	ldr	r3, [pc, #76]	; (8000908 <spiTransiverTask+0xc8>)
- 80008bc:	2200      	movs	r2, #0
- 80008be:	701a      	strb	r2, [r3, #0]
- 80008c0:	e002      	b.n	80008c8 <spiTransiverTask+0x88>
-      else spiSendFlag = 1;
- 80008c2:	4b11      	ldr	r3, [pc, #68]	; (8000908 <spiTransiverTask+0xc8>)
- 80008c4:	2201      	movs	r2, #1
- 80008c6:	701a      	strb	r2, [r3, #0]
+  	  if(getUARTLastByte()==stringEndSymbol) spiSendFlag = 0;
+ 80008a6:	f000 fa5d 	bl	8000d64 <getUARTLastByte>
+ 80008aa:	4603      	mov	r3, r0
+ 80008ac:	461a      	mov	r2, r3
+ 80008ae:	2300      	movs	r3, #0
+ 80008b0:	429a      	cmp	r2, r3
+ 80008b2:	d103      	bne.n	80008bc <spiTransiverTask+0x7c>
+ 80008b4:	4b14      	ldr	r3, [pc, #80]	; (8000908 <spiTransiverTask+0xc8>)
+ 80008b6:	2200      	movs	r2, #0
+ 80008b8:	701a      	strb	r2, [r3, #0]
+ 80008ba:	e002      	b.n	80008c2 <spiTransiverTask+0x82>
+  	  else spiSendFlag = 1;
+ 80008bc:	4b12      	ldr	r3, [pc, #72]	; (8000908 <spiTransiverTask+0xc8>)
+ 80008be:	2201      	movs	r2, #1
+ 80008c0:	701a      	strb	r2, [r3, #0]
+  	  transmitBuffer[0] = uartMsg[0];
+ 80008c2:	89ba      	ldrh	r2, [r7, #12]
+ 80008c4:	4b0c      	ldr	r3, [pc, #48]	; (80008f8 <spiTransiverTask+0xb8>)
+ 80008c6:	801a      	strh	r2, [r3, #0]
       HAL_SPI_TransmitReceive_IT(pSPI, (uint8_t*)transmitBuffer, (uint8_t*)receiveBuffer, 1);
  80008c8:	4b09      	ldr	r3, [pc, #36]	; (80008f0 <spiTransiverTask+0xb0>)
  80008ca:	6818      	ldr	r0, [r3, #0]
@@ -1188,9 +1188,9 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
  80009a4:	b2db      	uxtb	r3, r3
  80009a6:	2b00      	cmp	r3, #0
  80009a8:	d10e      	bne.n	80009c8 <HAL_SPI_TxRxCpltCallback+0x68>
-    memset(transmitBuffer, stringEndSymbol, 1);
+    memset(transmitBuffer, stringEndSymbol, BUFFER_SIZE);
  80009aa:	2300      	movs	r3, #0
- 80009ac:	2201      	movs	r2, #1
+ 80009ac:	220a      	movs	r2, #10
  80009ae:	4619      	mov	r1, r3
  80009b0:	480b      	ldr	r0, [pc, #44]	; (80009e0 <HAL_SPI_TxRxCpltCallback+0x80>)
  80009b2:	f006 fa55 	bl	8006e60 <memset>

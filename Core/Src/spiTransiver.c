@@ -18,7 +18,6 @@ extern osMessageQueueId_t uartSendQueueHandle;
 extern IWDG_HandleTypeDef hiwdg;
 volatile uint8_t spiSendFlag = 0;
 
-
 void spiTransiverTask(void *argument)
 {
   uint16_t uartMsg[10]={0xaa};
@@ -31,9 +30,9 @@ void spiTransiverTask(void *argument)
   {
 	HAL_IWDG_Refresh(&hiwdg);
   	if(osMessageQueueGet (spiSendQueueHandle, &uartMsg, 0, SECOND_TIMEOUT) == osOK){
-      transmitBuffer[0] = uartMsg[0];
-      if(getUARTLastByte()==stringEndSymbol) spiSendFlag = 0;
-      else spiSendFlag = 1;
+  	  if(getUARTLastByte()==stringEndSymbol) spiSendFlag = 0;
+  	  else spiSendFlag = 1;
+  	  transmitBuffer[0] = uartMsg[0];
       HAL_SPI_TransmitReceive_IT(pSPI, (uint8_t*)transmitBuffer, (uint8_t*)receiveBuffer, 1);
   	}
   	else{
@@ -69,7 +68,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 	if(isDataTransmitted(receiveBuffer[0])) osMessageQueuePut(uartSendQueueHandle,receiveBuffer,0,0);
   }
   if(spiSendFlag == 0){
-    memset(transmitBuffer, stringEndSymbol, 1);
+    memset(transmitBuffer, stringEndSymbol, BUFFER_SIZE);
     HAL_SPI_TransmitReceive_IT(pSPI, (uint8_t*)transmitBuffer, (uint8_t*)receiveBuffer, 1);
   }
 }

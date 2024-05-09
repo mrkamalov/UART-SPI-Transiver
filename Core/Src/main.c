@@ -83,8 +83,8 @@ const osSemaphoreAttr_t uartSendSem_attributes = {
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_IWDG_Init(void);
-static void MX_UART4_Init(void);
 static void MX_SPI2_Init(void);
+static void MX_UART4_Init(void);
 void uartTransiverTask(void *argument);
 extern void spiTransiverTask(void *argument);
 
@@ -126,8 +126,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_IWDG_Init();
-  MX_UART4_Init();
   MX_SPI2_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
   __HAL_DBGMCU_FREEZE_IWDG();
   /* USER CODE END 2 */
